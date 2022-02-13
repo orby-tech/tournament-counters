@@ -11,15 +11,13 @@ export function InitIPCController() {
     (state) => state.structure.manualUpdated
   );
   const mustLoad = useAppSelector((state) => state.stateController.mustLoad);
-  console.log(manualUpdated);
 
   const dispatch = useAppDispatch();
   ipcRenderer.on("ping-good-reply", (e, e1) => {
-    console.log(e, e1);
+    return;
   });
 
   ipcRenderer.on("initial-state", (e, e1: StoreState) => {
-    console.log(e, e1);
     dispatch(
       setStructureState({ type: "commandsСount", payload: e1.structure })
     );
@@ -29,7 +27,6 @@ export function InitIPCController() {
   if (mustLoad) {
     ipcRenderer.send("hello", "a string", 10);
   } else if (manualUpdated) {
-    console.log(27);
     ipcRenderer.send("set-state", state);
   }
 

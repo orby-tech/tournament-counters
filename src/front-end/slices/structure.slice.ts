@@ -15,8 +15,6 @@ export const structureSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     setStructureState: (state, action) => {
-      console.log(action.payload.payload);
-
       state.structure = { ...action.payload.payload.structure };
       state.reporter = { ...action.payload.payload.reporter };
       state.opposition = { ...action.payload.payload.opposition };
