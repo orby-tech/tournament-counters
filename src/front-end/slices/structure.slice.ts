@@ -170,14 +170,18 @@ export const usersOprtions = (
   value: string;
   label: string;
 }[] => {
-  return (
-    structure.structure[commandName]?.map((key) => {
+  return [
+    {
+      value: "",
+      label: "Не выбрано",
+    },
+    ...(structure.structure[commandName]?.map((key) => {
       return {
         value: key,
         label: key,
       };
-    }) || []
-  );
+    }) || []),
+  ];
 };
 
 export const {

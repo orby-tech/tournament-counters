@@ -43,7 +43,7 @@ export function TourMapTable() {
                   {" "}
                   <Select
                     onChange={(e) => onSelectCommand(e, index)}
-                    value={structure.commandsColumns[index]}
+                    value={structure.commandsColumns[index] || ""}
                   >
                     {commandsList(structure).map((option, index) => {
                       return (

@@ -4,6 +4,8 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
   selectOppositionPerson,
+  selectReporterPerson,
+  selectReviewerPerson,
   usersOprtions,
 } from "../../slices/structure.slice";
 
@@ -14,13 +16,21 @@ export function PersonSelect({ rule }: { rule: Rule }) {
   const dispatch = useAppDispatch();
 
   const structure = useAppSelector((state) => state.structure);
-  const tourNumber = useAppSelector(
-    (state) => state.structure.tourNumber
-  );
+  const tourNumber = useAppSelector((state) => state.structure.tourNumber);
+
+  const getSetter = () => {
+    switch (rule) {
+      case Rule.revier:
+        return selectReviewerPerson;
+      case Rule.opposition:
+        return selectOppositionPerson;
+      case Rule.reporter:
+        return selectReporterPerson;
+    }
+  };
+
   const onSelectPerson = (e: SelectChangeEvent<unknown>) => {
-    dispatch(
-      selectOppositionPerson({ type: "juries", payload: e.target.value })
-    );
+    dispatch(getSetter()({ type: "juries", payload: e.target.value }));
   };
 
   const table = TablesStructure[structure.commandsCount];
@@ -40,11 +50,27 @@ export function PersonSelect({ rule }: { rule: Rule }) {
     .indexOf(true);
 
   const command = structure.commandsColumns[index];
+
+  const getValue = () => {
+    switch (rule) {
+      case Rule.reporter:
+        return structure.reporter.person;
+      case Rule.opposition:
+        return structure.opposition.person;
+      case Rule.revier:
+        return structure.reviewer.person;
+
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       {" "}
       <InputLabel id="demo-simple-select-label">{command}</InputLabel>
       <Select
+        value={getValue()}
         onChange={onSelectPerson}
         label={command}
         labelId="demo-simple-select-label"

@@ -18,7 +18,7 @@ export function CommandsNumberEditor() {
     <Paper elevation={1} className="tournament-control">
       <InputLabel id="demo-simple-select-label">Кол-во команд</InputLabel>
       <Select
-        value={commandsСount}
+        value={commandsСount || ''}
         onChange={setNewValue}
         labelId="demo-simple-select-label"
       >
