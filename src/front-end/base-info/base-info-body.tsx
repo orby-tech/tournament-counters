@@ -5,7 +5,7 @@ import arrow from "../assets/arrow.png";
 import { TourMapTable } from "./table";
 import { SectionNumberEditor } from "./section-number-editor";
 import { StageNumberEditor } from "./stage-number-editor";
-import { JuriesEditor } from "./juries-editor";
+import { JuriesEditor } from "./juries-editor/juries-editor";
 import { JuryNumberEditor } from "./jury-number-editor";
 import { CommandsNumberEditor } from "./commands-number-editor";
 

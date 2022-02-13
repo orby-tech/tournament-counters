@@ -16,6 +16,7 @@ export const structureSlice = createSlice({
   reducers: {
     setStructureState: (state, action) => {
       state.structure = { ...action.payload.payload.structure };
+      state.juries = action.payload.payload.juries;
       state.reporter = { ...action.payload.payload.reporter };
       state.opposition = { ...action.payload.payload.opposition };
       state.reviewer = { ...action.payload.payload.reviewer };
@@ -43,6 +44,19 @@ export const structureSlice = createSlice({
     },
     setJuriesCount: (state, action) => {
       return;
+    },
+    setJuryTitle: (state, action) => {
+      state.juries = state.juries.map((jury) => {
+        if (action.payload.payload.id === jury.id) {
+          return {
+            ...jury,
+            title: action.payload.payload.title,
+          };
+        }
+        return jury;
+      });
+
+      state.manualUpdated = true;
     },
 
     selectReporterCommand: (state, action) => {
@@ -189,6 +203,7 @@ export const {
   addJury,
   toggleJury,
   setJuriesCount,
+  setJuryTitle,
 
   selectReporterCommand,
   selectReporterPerson,
