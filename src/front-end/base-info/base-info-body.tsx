@@ -17,9 +17,7 @@ export const BaseInfoBody = () => {
       </Grid>
       <Grid item xs={1} sm={1} md={1}></Grid>
       <Grid item xs={8} sm={4} md={7}>
-        <Paper elevation={1} className="tournament-control">
-          <StageNumberEditor />
-        </Paper>
+        <StageNumberEditor />
       </Grid>
 
       <Grid item xs={8} sm={4} md={4}>
