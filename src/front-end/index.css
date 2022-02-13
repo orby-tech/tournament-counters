@@ -1,0 +1,69 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: auto;
+  padding: 2rem;
+}
+
+header {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 180px;
+}
+
+.tournament-control-block {
+  display: flex;
+}
+
+.tournament-control {
+  position: relative;
+  flex: 1;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 15px;
+}
+/* .tournament-control label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+} */
+
+/* .tournament-control input {
+  width: 35px;
+} */
+
+.counter-body {
+  left: 0;
+  top: 180px;
+  width: 100%;
+}
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+}
+
+.koefficient-input {
+  width: 80px;
+}
+
+.evaluation-column {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+}
+
+.evaluation-header {
+  width: 150px;
+}
+
+.evaluation {
+  width: 70px;
+}
+
+img.arrow-right {
+  width: 80px;
+}

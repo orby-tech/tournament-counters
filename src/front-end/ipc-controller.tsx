@@ -1,0 +1,37 @@
+import { ipcRenderer } from "electron";
+import { useAppDispatch, useAppSelector } from "./hooks";
+import { setStructureState } from "./slices/structure.slice";
+import React from "react";
+import { loaded } from "./slices/state-controller.slice";
+import { StoreState } from "../common/models/store-state";
+
+export function InitIPCController() {
+  const state = useAppSelector((state) => state);
+  const manualUpdated = useAppSelector(
+    (state) => state.structure.manualUpdated
+  );
+  const mustLoad = useAppSelector((state) => state.stateController.mustLoad);
+  console.log(manualUpdated);
+
+  const dispatch = useAppDispatch();
+  ipcRenderer.on("ping-good-reply", (e, e1) => {
+    console.log(e, e1);
+  });
+
+  ipcRenderer.on("initial-state", (e, e1: StoreState) => {
+    console.log(e, e1);
+    dispatch(
+      setStructureState({ type: "commandsСount", payload: e1.structure })
+    );
+    dispatch(loaded({ type: "commandsСount", payload: "" }));
+  });
+
+  if (mustLoad) {
+    ipcRenderer.send("hello", "a string", 10);
+  } else if (manualUpdated) {
+    console.log(27);
+    ipcRenderer.send("set-state", state);
+  }
+
+  return <></>;
+}
