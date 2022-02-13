@@ -64,7 +64,6 @@ export class StateController {
       sectionNumber: state.structure.sectionNumber,
       stageNumber: state.structure.stageNumber,
     } as ActualDataState;
-    console.log(actualData, state);
     this.writeFile(
       `${this.databaseDirectory}${this.actualDatabaseName}`,
       actualData
