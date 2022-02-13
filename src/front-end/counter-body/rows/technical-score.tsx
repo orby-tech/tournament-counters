@@ -13,10 +13,24 @@ export function TechnicalScore({
 }) {
   const juries = useAppSelector((state) => state.structure.juries);
   const tours = useAppSelector((state) => state.structure.tours);
+  const structure = useAppSelector((state) => state.structure);
   const tourNumber = useAppSelector((state) => state.structure.tourNumber);
   const activeJuries = juries.filter((jury) => jury.active);
 
   let technicalScore = 0;
+
+  const getCoefficient = () => {
+    switch (evaluationType) {
+      case EvaluationType.opposition:
+        return structure.opposition.coefficient;
+      case EvaluationType.revier:
+        return structure.reviewer.coefficient;
+      case EvaluationType.presentation:
+        return structure.reporter.coefficient;
+      case EvaluationType.scince:
+        return structure.reporter.coefficient;
+    }
+  };
 
   if (
     evaluationType === EvaluationType.presentation ||
@@ -26,18 +40,18 @@ export function TechnicalScore({
       technicalScore +=
         EVALUATION_VALUES[
           tours[tourNumber].evaluations[EvaluationType.presentation][jury.id]
-        ] || 0;
+        ] * getCoefficient() || 0;
       technicalScore +=
         EVALUATION_VALUES[
           tours[tourNumber].evaluations[EvaluationType.scince][jury.id]
-        ] || 0;
+        ] * getCoefficient() || 0;
     });
   } else {
     activeJuries.forEach((jury) => {
       technicalScore +=
         EVALUATION_VALUES[
           tours[tourNumber].evaluations[evaluationType][jury.id]
-        ] || 0;
+        ] * getCoefficient() || 0;
     });
   }
 

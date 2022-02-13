@@ -4,14 +4,13 @@ import { JuryModel } from "../../common/models/jury";
 import { RootState } from "../store";
 
 export function JuriesNumberInfo() {
-  const juries = useSelector<RootState, JuryModel[]>(
+  const activeJuries = useSelector<RootState, JuryModel[]>(
     (state) => state.structure.juries
-  );
-  const activeJuries = juries.filter((jury) => jury.active);
+  ).filter((jury) => jury.active);
 
   return (
     <div className="tournament-control">
-      <label>Номер секции: {activeJuries.length}</label>
+      <label>Количество жюри: {activeJuries.length}</label>
     </div>
   );
 }
