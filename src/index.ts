@@ -11,6 +11,9 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    kiosk: false,
+    autoHideMenuBar: true,
+    title: "Tournament counter",
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true,
