@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from "@material-ui/core";
+import { TableRow, TableCell } from "@mui/material";
 import React from "react";
 import { EvaluationType } from "../../../common/models/evaluation-type.model";
 import { useAppSelector } from "../../hooks";

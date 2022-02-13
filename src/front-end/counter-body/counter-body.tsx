@@ -1,15 +1,9 @@
 import * as React from "react";
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableBody,
-  Box,
-} from "@material-ui/core";
+
 import { CounterBodyTableHeader } from "./table-header";
 import { JuriesHeadersRow } from "./rows/table-headers-row";
 import { Row } from "./rows/row";
-import { Divider } from "@mui/material";
+import { Box, Divider, Paper, Table, TableBody, TableContainer } from "@mui/material";
 import { TourSelector } from "./tour-selector";
 import { Rule } from "../../common/models/rule.model";
 

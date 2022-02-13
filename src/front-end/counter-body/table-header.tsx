@@ -1,5 +1,5 @@
+import { TableHead, TableRow, TableCell } from "@mui/material";
 import React from "react";
-import { TableHead, TableCell, TableRow } from "@material-ui/core";
 export function CounterBodyTableHeader() {
   return (
     <TableHead>
