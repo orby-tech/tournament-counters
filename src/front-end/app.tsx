@@ -1,4 +1,3 @@
-import { Box, Tab, Tabs } from "@material-ui/core";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BaseInfoBody } from "./base-info/base-info-body";
@@ -10,6 +9,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { InitIPCController } from "./ipc-controller";
 import { useAppSelector } from "./hooks";
+import { Box, Tab, Tabs } from "@mui/material";
 
 class App extends React.Component {
   state = {
