@@ -1,74 +1,39 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { BaseInfoBody } from "./base-info/base-info-body";
-import { CommandsEditor } from "./commands-editor";
-import { CounterBody } from "./counter-body/counter-body";
 import { Footer } from "./footer";
 import { Header } from "./header/header";
-import store from "./store";
-import { Provider } from "react-redux";
+import store, { RootState } from "./store";
+import { Provider, useSelector } from "react-redux";
 import { InitIPCController } from "./ipc-controller";
 import { useAppSelector } from "./hooks";
-import { Box, Tab, Tabs } from "@mui/material";
+import { TabsBlock } from "./tabs-block";
+import { TabSelector } from "./tabs-selector";
+import { AvailableTabs } from "./slices/tabs.slice";
 
-class App extends React.Component {
-  state = {
-    selectedTab: 0,
-  };
-
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.setSelectedTab = this.setSelectedTab.bind(this);
-  }
-
-  setSelectedTab(event: any, newValue: number) {
-    this.setState({ selectedTab: newValue });
-  }
-
-  render() {
-    return (
-      <>
-        <Header />
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={this.state.selectedTab}
-            onChange={this.setSelectedTab}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Основная информация" />
-            <Tab label="Команды" />
-            <Tab label="Информация о туре" />
-          </Tabs>
-        </Box>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <div hidden={this.state.selectedTab !== 0}>
-            <BaseInfoBody />
-          </div>
-          <div hidden={this.state.selectedTab !== 1}>
-            <CommandsEditor />
-          </div>
-          <div hidden={this.state.selectedTab !== 2}>
-            <CounterBody />
-          </div>
-        </Box>{" "}
-        <Footer />
-      </>
-    );
-  }
-}
-
-function ShowApp() {
+function App() {
+  const selectedTab = useSelector<RootState, AvailableTabs>(
+    (state) => state.tabs.selectedTab
+  );
   const structure = useAppSelector((state) => state.structure.structure);
+
   if (!structure) {
     return <>adsa</>;
   }
-  return <App />;
+
+  return (
+    <>
+      <Header />
+      <TabSelector />
+      <TabsBlock selectedTab={selectedTab} />
+      <Footer />
+    </>
+  );
 }
 
 function ZeroApp() {
   return (
     <Provider store={store}>
-      <ShowApp />
+      <App />
       <InitIPCController />
     </Provider>
   );
