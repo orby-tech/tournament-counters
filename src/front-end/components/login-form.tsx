@@ -37,7 +37,7 @@ export function LoginForm() {
       ipcRenderer.on("change-user-status-error", () => {
         clearTimeout(updateTimer);
 
-        const updateTimer = setTimeout(() => {
+        updateTimer = setTimeout(() => {
           if (!errorTime) {
             setWrongIteration(wrongIteration + 1);
             tickTimer(3 ** wrongIteration);
