@@ -1,30 +1,27 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Footer } from "./footer";
-import { Header } from "./header/header";
-import store, { RootState } from "./store";
-import { Provider, useSelector } from "react-redux";
+import { Footer } from "./components/footer";
+import { Header } from "./components/header/header";
+import store from "./store/store";
+import { Provider } from "react-redux";
 import { InitIPCController } from "./ipc-controller";
 import { useAppSelector } from "./hooks";
-import { TabsBlock } from "./tabs-block";
-import { TabSelector } from "./tabs-selector";
-import { AvailableTabs } from "./slices/tabs.slice";
+import { TabsBlock } from "./components/tabs-block";
+import { TabSelector } from "./components/tabs-selector";
+import { LoadingPage } from "./components/loading-page";
 
 function App() {
-  const selectedTab = useSelector<RootState, AvailableTabs>(
-    (state) => state.tabs.selectedTab
-  );
   const structure = useAppSelector((state) => state.structure.structure);
 
   if (!structure) {
-    return <>adsa</>;
+    return <LoadingPage />;
   }
 
   return (
     <>
       <Header />
       <TabSelector />
-      <TabsBlock selectedTab={selectedTab} />
+      <TabsBlock />
       <Footer />
     </>
   );

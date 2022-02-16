@@ -1,8 +1,8 @@
 import { ipcRenderer } from "electron";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import { setStructureState } from "./slices/structure.slice";
+import { setStructureState } from "./store/slices/structure.slice";
 import React from "react";
-import { loaded } from "./slices/state-controller.slice";
+import { loaded } from "./store/slices/state-controller.slice";
 import { StoreState } from "../common/models/store-state";
 
 export function InitIPCController() {
