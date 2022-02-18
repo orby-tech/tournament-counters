@@ -7,7 +7,7 @@ import { RootState } from "../store/store";
 import { TabSliceType } from "../store/slices/tabs.slice";
 import { useSelector } from "react-redux";
 import { LoginForm } from "./login-form";
-import { BaseEditor } from "./base-editor";
+import { BaseEditor } from "./base-editor/base-editor";
 
 export function TabsBlock() {
   const tabs = useSelector<RootState, TabSliceType>((state) => state.tabs);

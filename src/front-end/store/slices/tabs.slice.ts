@@ -10,7 +10,7 @@ export type TabSliceType = {
 export const tabsSlice = createSlice({
   name: "tabs",
   initialState: {
-    userRule: "user" as UserRule,
+    userRule: "root" as UserRule,
     selectedTab: 4 as AvailableTabs,
   },
   reducers: {
@@ -18,7 +18,7 @@ export const tabsSlice = createSlice({
       state.userRule = action.payload.payload;
     },
     setSelectedTab: (state: TabSliceType, action: any) => {
-      console.log(action)
+      console.log(action);
       state.selectedTab = action.payload.payload;
     },
   },
