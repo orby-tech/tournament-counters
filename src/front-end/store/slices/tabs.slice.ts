@@ -18,7 +18,6 @@ export const tabsSlice = createSlice({
       state.userRule = action.payload.payload;
     },
     setSelectedTab: (state: TabSliceType, action: any) => {
-      console.log(action);
       state.selectedTab = action.payload.payload;
     },
   },

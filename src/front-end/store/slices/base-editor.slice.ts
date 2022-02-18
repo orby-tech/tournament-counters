@@ -85,14 +85,12 @@ export const baseEditorSlice = createSlice({
   initialState: getState(),
   reducers: {
     addCommand: (state, action) => {
-      console.log(action, state.structure);
       state.structure.commands = [
         ...state.structure.commands,
         { id: uuidv4(), name: "Новая команда", persons: [] },
       ];
     },
     addPerson: (state, action) => {
-      console.log(action, state.structure.commands[action.payload.payload]);
       state.structure.commands.find(
         (command) => command.id === action.payload.payload
       ).persons = [
