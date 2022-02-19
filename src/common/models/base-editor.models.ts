@@ -14,4 +14,5 @@ export type BaseEditorCommands = {
 
 export type BaseEditorStructure = {
   structure: BaseEditorCommands;
+  manualUpdated: boolean
 };

@@ -2,6 +2,9 @@ import fs from "fs";
 import { StoreState } from "../common/models/store-state";
 import { ActualDataState } from "../common/models/actual-data.models";
 import { getInitialState } from "../common/get-state";
+import { getBaseState } from "../common/get-base-state";
+import { StructureState } from "../common/models/structure.models";
+import { BaseEditorStructure } from "../common/models/base-editor.models";
 
 export class StateController {
   private writeStateTimer: NodeJS.Timeout | null = null;
@@ -12,16 +15,16 @@ export class StateController {
     this.createDatabaseDirectory(this.databaseDirectory);
   }
 
-  readState(): StoreState {
+  readState(): StructureState {
     const actualDatabaseName = this.getActualDatabaseName();
     if (!actualDatabaseName) {
-      return { structure: getInitialState() };
+      return getInitialState();
     }
     const state = this.readFile<StoreState>(
       `${this.databaseDirectory}${actualDatabaseName}`
     );
     if (!state) {
-      return { structure: getInitialState() };
+      return getInitialState();
     }
 
     const actualState = this.readFile<ActualDataState>(
@@ -29,11 +32,20 @@ export class StateController {
     );
 
     return {
-      structure: {
-        ...state.structure,
-        sectionNumber: actualState.sectionNumber,
-      },
+      ...state.structure,
+      sectionNumber: actualState.sectionNumber,
     };
+  }
+
+  readBaseState(): BaseEditorStructure {
+    const state = this.readFile<BaseEditorStructure>(
+      `${this.databaseDirectory}${"base-info.json"}`
+    );
+    if (!state) {
+      return getBaseState();
+    }
+
+    return state;
   }
 
   writeState(state: StoreState) {
@@ -45,6 +57,13 @@ export class StateController {
         `${this.databaseDirectory}${this.getActualDatabaseName()}`,
         state
       );
+    }, 200);
+  }
+  
+  writeBaseState(state: BaseEditorStructure) {
+    clearTimeout(this.writeStateTimer);
+    this.writeStateTimer = setTimeout(() => {
+      this.writeFile(`${this.databaseDirectory}${"base-info.json"}`, state);
     }, 200);
   }
 

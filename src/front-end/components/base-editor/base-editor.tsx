@@ -1,12 +1,21 @@
-import { Box, List, ListItem, Paper, TextField } from "@mui/material";
+import { Box, List, ListItem, Tab, Tabs, TextField } from "@mui/material";
 import * as React from "react";
-import { changeCommandName, changePersonName } from "../../../front-end/store/slices/base-editor.slice";
+import {
+  changeCommandName,
+  changePersonName,
+} from "../../../front-end/store/slices/base-editor.slice";
 import {
   BaseEditorCommand,
   BaseEditorPerson,
 } from "../../../common/models/base-editor.models";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { AddItemButton } from "./item-add-button";
+import { useSelector } from "react-redux";
+import {
+  AvailableTabs,
+  setEditorSelectedTab,
+} from "../../../front-end/store/slices/tabs.slice";
+import { RootState } from "../../../front-end/store/store";
 
 export function Person({
   person,
@@ -90,24 +99,46 @@ export function Command({ command }: { command: BaseEditorCommand }) {
 export function BaseEditor() {
   const commands =
     useAppSelector((state) => state.baseEditor.structure.commands) || [];
+  const editorSelectedTab = useSelector<RootState, AvailableTabs>(
+    (state) => state.tabs.editorSelectedTab
+  );
 
+  const dispatch = useAppDispatch();
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          p: 1,
-          m: 1,
-          bgcolor: "background.paper",
-          borderRadius: 1,
-        }}
-      >
-        {commands.map((command) => {
-          return <Command command={command} key={command.id} />;
-        })}
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={editorSelectedTab}
+          onChange={(e, newValue: 0 | 1) =>
+            dispatch(setEditorSelectedTab({ type: "", payload: newValue }))
+          }
+          aria-label="basic tabs example"
+        >
+          <Tab label="" disabled />
+          <Tab label="Команды" />
+          <Tab label="Устройства" />
+        </Tabs>
       </Box>
-      <AddItemButton type="command" />
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <div hidden={editorSelectedTab !== 1}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              p: 1,
+              m: 1,
+              bgcolor: "background.paper",
+              borderRadius: 1,
+            }}
+          >
+            {commands.map((command) => {
+              return <Command command={command} key={command.id} />;
+            })}
+          </Box>
+          <AddItemButton type="command" />
+        </div>
+        <div hidden={editorSelectedTab !== 2}></div>
+      </Box>
     </>
   );
 }
