@@ -117,6 +117,7 @@
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
     "fs": "^0.0.1-security",
+    "fs-extra": "^10.0.0",
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -124,6 +125,7 @@
     "react-redux": "^7.2.6",
     "react-select": "^5.2.2",
     "redux": "^4.1.2",
+    "simple-git": "^3.2.6",
     "uuid": "^8.3.2",
     "zlib": "^1.0.5"
   }

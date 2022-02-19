@@ -5,6 +5,7 @@ import {
   TableHead,
   TableBody,
   Box,
+  Button,
 } from "@mui/material";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -58,10 +59,24 @@ function DevicesPure() {
   ipcRenderer.on("all-devices", (e, e1: Device[]) => {
     dispatch(setDevices({ type: "", payload: e1 }));
   });
+  ipcRenderer.on("build-app-finish", (e) => {
+    console.log(63);
+  });
+  ipcRenderer.on("write-app-to-flash-finish", (e, e1: Device) => {
+    console.log(66, e1);
+  });
+
   if (!devicesLoaded) {
     ipcRenderer.send("get-all-devices");
   }
-  console.log(devices);
+
+  const buildApp = () => {
+    ipcRenderer.send("build-app");
+  };
+
+  const writeAppToFlash = (flash: Device) => {
+    ipcRenderer.send("write-app-to-flash", flash);
+  };
   return (
     <>
       <AddDevices />
@@ -72,7 +87,9 @@ function DevicesPure() {
             <TableCell>Использована ранее</TableCell>
             <TableCell>Актуальность базы данных</TableCell>
             <TableCell>Есть ли данные с прошлого турнира?</TableCell>
-            <TableCell> Записать приложение в директорию </TableCell>
+            <TableCell>
+              <Button onClick={buildApp}> Собрать приложение</Button>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -87,12 +104,15 @@ function DevicesPure() {
                   <ActualDatabase actualDatabase={device.actualDatabase} />
                 </TableCell>
                 <TableCell>
-                  {" "}
                   <DatabaseFromOldTournament
                     databaseFromOldTournament={device.databaseFromOldTournament}
-                  />{" "}
+                  />
                 </TableCell>
-                <TableCell> write app </TableCell>
+                <TableCell>
+                  <Button onClick={() => writeAppToFlash(device)}>
+                    Записать приложение
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}

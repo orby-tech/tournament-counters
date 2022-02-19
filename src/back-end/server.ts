@@ -1,4 +1,6 @@
 import { BrowserWindow, ipcMain, dialog } from "electron";
+import { Device } from "../common/models/device";
+import { buildAppIPC, copyWindowsPackageToPath } from "./build-app";
 import { getUserRuleByPassword } from "./check-password";
 import { DeviceController } from "./device-controller";
 import { StateController } from "./state.controller";
@@ -38,5 +40,14 @@ export const initIPCServer = (mainWindow: BrowserWindow) => {
 
     event.sender.send("new-devices", newPaths);
     event.sender.send("all-devices", deviceController.getDevices());
+  });
+
+  ipcMain.on("build-app", function (event) {
+    buildAppIPC(event);
+  });
+
+  ipcMain.on("write-app-to-flash", async function (event, device: Device) {
+    await copyWindowsPackageToPath(device.path);
+    event.sender.send("write-app-to-flash-finish", device);
   });
 };
