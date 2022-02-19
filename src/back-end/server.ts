@@ -1,10 +1,12 @@
-import { ipcMain } from "electron";
+import { BrowserWindow, ipcMain, dialog } from "electron";
 import { getUserRuleByPassword } from "./check-password";
+import { DeviceController } from "./device-controller";
 import { StateController } from "./state.controller";
 
 const stateController = new StateController();
+const deviceController = new DeviceController();
 
-export const initIPCServer = () => {
+export const initIPCServer = (mainWindow: BrowserWindow) => {
   ipcMain.on("hello", (event) => {
     event.sender.send("initial-state", stateController.readState());
     event.sender.send("initial-base-state", stateController.readBaseState());
@@ -13,7 +15,7 @@ export const initIPCServer = () => {
   ipcMain.on("set-state", (event, state) => {
     stateController.writeState(state);
   });
-  
+
   ipcMain.on("set-base-state", (event, state) => {
     stateController.writeBaseState(state);
   });
@@ -22,8 +24,19 @@ export const initIPCServer = () => {
     const userRule = getUserRuleByPassword(state.password);
     if (!userRule) {
       event.sender.send("change-user-status-error", userRule);
-      return
+      return;
     }
     event.sender.send("change-user-status", userRule);
+  });
+
+  ipcMain.on("get-all-devices", async function (event) {
+    event.sender.send("all-devices", deviceController.getDevices());
+  });
+
+  ipcMain.on("select-divices-directories", async function (event) {
+    const newPaths = await deviceController.appendDevicesDialog(mainWindow);
+
+    event.sender.send("new-devices", newPaths);
+    event.sender.send("all-devices", deviceController.getDevices());
   });
 };

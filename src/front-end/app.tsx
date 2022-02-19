@@ -9,6 +9,7 @@ import { useAppSelector } from "./hooks";
 import { TabsBlock } from "./components/tabs-block";
 import { TabSelector } from "./components/tabs-selector";
 import { LoadingPage } from "./components/loading-page";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const structure = useAppSelector((state) => state.structure.structure);
@@ -32,6 +33,7 @@ function ZeroApp() {
     <Provider store={store}>
       <App />
       <InitIPCController />
+      <Toaster position="top-right" reverseOrder={false} />
     </Provider>
   );
 }

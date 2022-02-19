@@ -3,6 +3,7 @@ import structureReducer from "./slices/structure.slice";
 import stateControllerReducer from "./slices/state-controller.slice";
 import baseEditorReducer from "./slices/base-editor.slice";
 import tabsReducer from "./slices/tabs.slice";
+import { devicesSliceReducer } from "./slices/devices.slice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     stateController: stateControllerReducer,
     baseEditor: baseEditorReducer,
     tabs: tabsReducer,
+    devicesSlice: devicesSliceReducer,
   },
 });
 

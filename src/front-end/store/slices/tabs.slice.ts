@@ -5,7 +5,7 @@ export type AvailableTabs = 0 | 1 | 2 | 4;
 export type TabSliceType = {
   userRule: UserRule;
   selectedTab: AvailableTabs;
-  editorSelectedTab: 0 | 1;
+  editorSelectedTab: 1 | 2;
 };
 
 export const tabsSlice = createSlice({
@@ -13,7 +13,7 @@ export const tabsSlice = createSlice({
   initialState: {
     userRule: "root" as UserRule,
     selectedTab: 4 as AvailableTabs,
-    editorSelectedTab: 1 as 1 | 2,
+    editorSelectedTab: 2 as 1 | 2,
   },
   reducers: {
     setUserStatus: (state: TabSliceType, action: any) => {

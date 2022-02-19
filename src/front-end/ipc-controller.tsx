@@ -6,6 +6,8 @@ import { loaded } from "./store/slices/state-controller.slice";
 import { StructureState } from "../common/models/structure.models";
 import { setBaseState } from "./store/slices/base-editor.slice";
 import { BaseEditorStructure } from "../common/models/base-editor.models";
+import { Device } from "../common/models/device";
+import toast, { Toaster } from "react-hot-toast";
 
 export function InitIPCController() {
   const state = useAppSelector((state) => state);
@@ -31,6 +33,8 @@ export function InitIPCController() {
     dispatch(setBaseState({ type: "", payload: e1 }));
     dispatch(loaded({ type: "", payload: "" }));
   });
+
+
 
   if (mustLoad) {
     ipcRenderer.send("hello", "a string", 10);

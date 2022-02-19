@@ -1,0 +1,1 @@
+%windir%\system32\cmd.exe /C start /B /D .\counter-app .\counter-app\my-new-app.exe
