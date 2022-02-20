@@ -18,6 +18,8 @@ import {
   IPC_SERVER_SIDE_EVENTS,
   IPC_CLIENT_SIDE_EVENTS,
 } from "../../../common/constants/ipc-events";
+import { locMap } from "../../../front-end/locale/i18n";
+import { useTranslation } from "react-i18next";
 
 export const COLORS = {
   liteGreen: "#69e169",
@@ -60,6 +62,7 @@ function DevicesPure() {
     useAppSelector<Device[]>((state) => state.devicesSlice.devices) || [];
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.all_devices, (e, e1: Device[]) => {
     dispatch(setDevices({ type: "", payload: e1 }));
@@ -91,12 +94,14 @@ function DevicesPure() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell> Путь </TableCell>
-            <TableCell>Использована ранее</TableCell>
-            <TableCell>Актуальность базы данных</TableCell>
-            <TableCell>Есть ли данные с прошлого турнира?</TableCell>
+            <TableCell>{t(locMap.headers.way)} </TableCell>
+            <TableCell>{t(locMap.headers.early_used)}</TableCell>
+            <TableCell>{t(locMap.headers.actual_database)}</TableCell>
             <TableCell>
-              <Button onClick={buildApp}> Собрать приложение</Button>
+              {t(locMap.headers.database_from_old_tournament)}
+            </TableCell>
+            <TableCell>
+              <Button onClick={buildApp}> {t(locMap.buttons.build_app)}</Button>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -118,7 +123,7 @@ function DevicesPure() {
                 </TableCell>
                 <TableCell>
                   <Button onClick={() => writeAppToFlash(device)}>
-                    Записать приложение
+                    {t(locMap.buttons.write_app)}
                   </Button>
                 </TableCell>
               </TableRow>
