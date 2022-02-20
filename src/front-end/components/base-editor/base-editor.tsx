@@ -7,7 +7,7 @@ import {
   setEditorSelectedTab,
 } from "../../../front-end/store/slices/tabs.slice";
 import { RootState } from "../../../front-end/store/store";
-import { Devices } from "./devices";
+import { Devices } from "./devices/devices";
 import { CommandsEditor } from "./commands-editor";
 
 function BaseEditorPure() {

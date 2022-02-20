@@ -26,11 +26,13 @@ const getLocWays = (way = "", dict: LocMap): LocMap => {
   return answerDict;
 };
 
-const getLocWaysMap = (): typeof RuTranslations => {
-  return getLocWays("", RuTranslations) as typeof RuTranslations;
+type LocMapType = typeof RuTranslations["translation"];
+
+const getLocWaysMap = (): LocMapType => {
+  return getLocWays("", RuTranslations["translation"]) as LocMapType;
 };
 
-export const locMap = getLocWaysMap()["translation"];
+export const locMap = getLocWaysMap();
 
 console.log(locMap);
 

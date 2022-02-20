@@ -5,8 +5,8 @@ import { toast } from "react-hot-toast";
 import {
   IPC_SERVER_SIDE_EVENTS,
   IPC_CLIENT_SIDE_EVENTS,
-} from "../../../common/constants/ipc-events";
-import { locMap } from "../../../front-end/locale/i18n";
+} from "../../../../common/constants/ipc-events";
+import { locMap } from "../../../locale/i18n";
 import { useTranslation } from "react-i18next";
 
 function AddDevicesPure() {
