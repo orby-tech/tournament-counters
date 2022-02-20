@@ -7,6 +7,10 @@ import { useAppDispatch } from "../hooks";
 import { setUserStatus } from "../store/slices/tabs.slice";
 import { locMap } from "../locale/i18n";
 import { useTranslation } from "react-i18next";
+import {
+  IPC_SERVER_SIDE_EVENTS,
+  IPC_CLIENT_SIDE_EVENTS,
+} from "../../common/constants/ipc-events";
 
 let errorTimer: NodeJS.Timeout | null = null;
 let updateTimer: NodeJS.Timeout | null = null;
@@ -34,11 +38,16 @@ export function LoginForm() {
 
   const onLogin = (e: any) => {
     if (e.key === "Enter") {
-      ipcRenderer.on("change-user-status", (e, userStatus: UserRule) => {
-        dispatch(setUserStatus({ type: "commandsСount", payload: userStatus }));
-      });
+      ipcRenderer.on(
+        IPC_CLIENT_SIDE_EVENTS.change_user_status,
+        (e, userStatus: UserRule) => {
+          dispatch(
+            setUserStatus({ type: "commandsСount", payload: userStatus })
+          );
+        }
+      );
 
-      ipcRenderer.on("change-user-status-error", () => {
+      ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.change_user_status_error, () => {
         clearTimeout(updateTimer);
 
         updateTimer = setTimeout(() => {
@@ -49,7 +58,9 @@ export function LoginForm() {
         }, 300);
       });
 
-      ipcRenderer.send("set-user-status", { password: e.target.value });
+      ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.set_user_status, {
+        password: e.target.value,
+      });
     }
   };
 

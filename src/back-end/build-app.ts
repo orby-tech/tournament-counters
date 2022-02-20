@@ -9,10 +9,11 @@ import { execSync } from "child_process";
 import fs from "fs";
 import fsExtra from "fs-extra";
 import { IpcMainEvent } from "electron";
+import { IPC_CLIENT_SIDE_EVENTS } from "../common/constants/ipc-events";
 
 export const buildAppIPC = async (event: IpcMainEvent) => {
   await buildApp();
-  event.sender.send("build-app-finish");
+  event.sender.send(IPC_CLIENT_SIDE_EVENTS.build_app_finish);
 };
 
 export const buildApp = async () => {

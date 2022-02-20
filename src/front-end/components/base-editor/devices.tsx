@@ -14,6 +14,10 @@ import { ipcRenderer } from "electron";
 import { Device } from "../../../common/models/device";
 import { setDevices } from "../../../front-end/store/slices/devices.slice";
 import { toast } from "react-hot-toast";
+import {
+  IPC_SERVER_SIDE_EVENTS,
+  IPC_CLIENT_SIDE_EVENTS,
+} from "../../../common/constants/ipc-events";
 
 export const COLORS = {
   liteGreen: "#69e169",
@@ -57,26 +61,29 @@ function DevicesPure() {
 
   const dispatch = useAppDispatch();
 
-  ipcRenderer.on("all-devices", (e, e1: Device[]) => {
+  ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.all_devices, (e, e1: Device[]) => {
     dispatch(setDevices({ type: "", payload: e1 }));
   });
-  ipcRenderer.on("build-app-finish", (e) => {
+  ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.build_app_finish, (e) => {
     toast("App  builded");
   });
-  ipcRenderer.on("write-app-to-flash-finish", (e, e1: Device) => {
-    toast(`App writed to ${e1.path}`);
-  });
+  ipcRenderer.on(
+    IPC_CLIENT_SIDE_EVENTS.write_app_to_flash_finish,
+    (e, e1: Device) => {
+      toast(`App writed to ${e1.path}`);
+    }
+  );
 
   if (!devicesLoaded) {
-    ipcRenderer.send("get-all-devices");
+    ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.get_all_devices);
   }
 
   const buildApp = () => {
-    ipcRenderer.send("build-app");
+    ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.build_app);
   };
 
   const writeAppToFlash = (flash: Device) => {
-    ipcRenderer.send("write-app-to-flash", flash);
+    ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.write_app_to_flash, flash);
   };
   return (
     <>
