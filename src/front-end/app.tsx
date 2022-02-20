@@ -11,6 +11,8 @@ import { TabSelector } from "./components/tabs-selector";
 import { LoadingPage } from "./components/loading-page";
 import { Toaster } from "react-hot-toast";
 
+import "./locale/i18n";
+
 function App() {
   const structure = useAppSelector((state) => state.structure.structure);
 

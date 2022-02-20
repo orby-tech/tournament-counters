@@ -5,12 +5,16 @@ import { ipcRenderer } from "electron";
 import { UserRule } from "../../common/models/user.model";
 import { useAppDispatch } from "../hooks";
 import { setUserStatus } from "../store/slices/tabs.slice";
+import { locMap } from "../locale/i18n";
+import { useTranslation } from "react-i18next";
 
 let errorTimer: NodeJS.Timeout | null = null;
 let updateTimer: NodeJS.Timeout | null = null;
 
 export function LoginForm() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
   const [errorTime, setErrorTime] = useState(0);
   const [wrongIteration, setWrongIteration] = useState(0);
 
@@ -50,14 +54,20 @@ export function LoginForm() {
   };
 
   if (errorTime > 0) {
-    return <>Не верный пароль, подождите: {errorTime}</>;
+    return (
+      <>
+        {t(locMap.support_info.wrong_pass_wait)}: {errorTime}
+      </>
+    );
   }
   clearTimeout(errorTimer);
   clearTimeout(updateTimer);
 
   return (
     <FormControl>
-      <InputLabel htmlFor="password-input">Login:</InputLabel>
+      <InputLabel htmlFor="password-input">
+        {t(locMap.headers.login)}:
+      </InputLabel>
       <Input id="password-input" type="password" onKeyPress={onLogin} />
     </FormControl>
   );
