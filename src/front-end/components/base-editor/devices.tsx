@@ -13,6 +13,7 @@ import { AddDevices } from "./add-device";
 import { ipcRenderer } from "electron";
 import { Device } from "../../../common/models/device";
 import { setDevices } from "../../../front-end/store/slices/devices.slice";
+import { toast } from "react-hot-toast";
 
 export const COLORS = {
   liteGreen: "#69e169",
@@ -60,10 +61,10 @@ function DevicesPure() {
     dispatch(setDevices({ type: "", payload: e1 }));
   });
   ipcRenderer.on("build-app-finish", (e) => {
-    console.log(63);
+    toast("App  builded");
   });
   ipcRenderer.on("write-app-to-flash-finish", (e, e1: Device) => {
-    console.log(66, e1);
+    toast(`App writed to ${e1.path}`);
   });
 
   if (!devicesLoaded) {

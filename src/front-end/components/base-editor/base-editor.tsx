@@ -8,7 +8,7 @@ import {
 } from "../../../front-end/store/slices/tabs.slice";
 import { RootState } from "../../../front-end/store/store";
 import { Devices } from "./devices";
-import { CommandsEditor } from "../commands-editor";
+import { CommandsEditor } from "./commands-editor";
 
 function BaseEditorPure() {
   const editorSelectedTab = useSelector<RootState, AvailableTabs>(
