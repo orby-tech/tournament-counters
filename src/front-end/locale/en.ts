@@ -11,4 +11,4 @@ export const EnTranslations = {
       wrong_pass_wait: "Wrong password, wait",
     },
   },
-};
+} as const;

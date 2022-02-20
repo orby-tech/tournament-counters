@@ -4,7 +4,7 @@ import {
   IPC_SERVER_SIDE_EVENTS,
 } from "../common/constants/ipc-events";
 import { Device } from "../common/models/device";
-import { buildAppIPC, copyWindowsPackageToPath } from "./build-app";
+import { getBuildAppWorker, copyWindowsPackageToPath } from "./build-app";
 import { getUserRuleByPassword } from "./check-password";
 import { DeviceController } from "./device-controller";
 import { StateController } from "./state.controller";
@@ -65,7 +65,7 @@ export const initIPCServer = (mainWindow: BrowserWindow) => {
   );
 
   ipcMain.on(IPC_SERVER_SIDE_EVENTS.build_app, function (event) {
-    buildAppIPC(event);
+    getBuildAppWorker(event);
   });
 
   ipcMain.on(

@@ -11,9 +11,28 @@ import fsExtra from "fs-extra";
 import { IpcMainEvent } from "electron";
 import { IPC_CLIENT_SIDE_EVENTS } from "../common/constants/ipc-events";
 
+import { Worker } from "worker_threads";
+import { ERROR_WHEN_APP_BUILDING } from "../common/constants/threads-events";
+
 export const buildAppIPC = async (event: IpcMainEvent) => {
   await buildApp();
   event.sender.send(IPC_CLIENT_SIDE_EVENTS.build_app_finish);
+};
+
+export const getBuildAppWorker = async (event: IpcMainEvent) => {
+  const worker = new Worker(__filename, {});
+
+  worker.on("message", (e) => {
+    event.sender.send(e);
+  });
+  worker.on("error", (e) => {
+    event.sender.send(ERROR_WHEN_APP_BUILDING, e);
+  });
+  worker.on("exit", (code) => {
+    if (code !== 0) {
+      event.sender.send(ERROR_WHEN_APP_BUILDING, code);
+    }
+  });
 };
 
 export const buildApp = async () => {

@@ -13,7 +13,6 @@ import { AddDevices } from "./devices/add-device";
 import { ipcRenderer } from "electron";
 import { Device } from "../../../common/models/device";
 import { setDevices } from "../../../front-end/store/slices/devices.slice";
-import { toast } from "react-hot-toast";
 import {
   IPC_SERVER_SIDE_EVENTS,
   IPC_CLIENT_SIDE_EVENTS,

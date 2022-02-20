@@ -21,4 +21,4 @@ export const RuTranslations = {
       build_app: "Собрать приложение",
     },
   },
-};
+} as const;

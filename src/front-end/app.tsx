@@ -4,7 +4,7 @@ import { Footer } from "./components/footer";
 import { Header } from "./components/header/header";
 import store from "./store/store";
 import { Provider } from "react-redux";
-import { InitIPCController } from "./ipc-controller";
+import { InitIPCController } from "./ipc-controllers/ipc-controller";
 import { useAppSelector } from "./hooks";
 import { TabsBlock } from "./components/tabs-block";
 import { TabSelector } from "./components/tabs-selector";

@@ -23,12 +23,13 @@ function DevicesPure() {
     dispatch(setDevices({ type: "", payload: e1 }));
   });
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.build_app_finish, (e) => {
-    toast("App  builded");
+    toast.success("App builded");
   });
+
   ipcRenderer.on(
     IPC_CLIENT_SIDE_EVENTS.write_app_to_flash_finish,
     (e, e1: Device) => {
-      toast(`App writed to ${e1.path}`);
+      toast.success(`App writed to ${e1.path}`);
     }
   );
 
