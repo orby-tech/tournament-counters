@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, dialog } from "electron";
 import { initIPCServer } from "./back-end/server";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -7,10 +7,13 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-const createWindow = (): void => {
+const createWindow = async (): void => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    kiosk: false,
+    autoHideMenuBar: true,
+    title: "Tournament counter",
     webPreferences: {
       nodeIntegration: true,
       webviewTag: true,
@@ -22,7 +25,7 @@ const createWindow = (): void => {
 
   mainWindow.webContents.openDevTools();
 
-  initIPCServer();
+  initIPCServer(mainWindow);
 };
 
 app.on("ready", createWindow);
