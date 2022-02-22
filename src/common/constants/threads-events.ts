@@ -11,5 +11,13 @@ export const buildAppEvents = {
   endBuild: "endBuild",
 } as const;
 
+export const ERROR_WHEN_APP_BUILDING = "errorWhenAppBuilding";
 
-export const ERROR_WHEN_APP_BUILDING = "errorWhenAppBuilding"
+export type CopyAppEventsType = ValueOf<typeof COPY_APP_EVENTS>;
+
+export const COPY_APP_EVENTS = {
+  startCoping: "startCoping",
+  endCoping: "endCoping",
+} as const;
+
+export const ERROR_WHEN_APP_COPING = "errorWhenAppCoping";

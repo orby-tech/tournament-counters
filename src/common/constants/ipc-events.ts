@@ -7,7 +7,7 @@ export const IPC_SERVER_SIDE_EVENTS = {
   select_divices_directories: "select-divices-directories",
   build_app: "build-app",
   write_app_to_flash: "write-app-to-flash",
-};
+} as const;
 
 export const IPC_CLIENT_SIDE_EVENTS = {
   initial_state: "initial-state",
@@ -18,4 +18,4 @@ export const IPC_CLIENT_SIDE_EVENTS = {
   new_devices: "new-devices",
   build_app_finish: "build-app-finish",
   write_app_to_flash_finish: "write-app-to-flash-finish",
-};
+} as const;

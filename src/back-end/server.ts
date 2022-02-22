@@ -4,7 +4,7 @@ import {
   IPC_SERVER_SIDE_EVENTS,
 } from "../common/constants/ipc-events";
 import { Device } from "../common/models/device";
-import { getBuildAppWorker, copyWindowsPackageToPath } from "./build-app";
+import { getBuildAppWorker, getCopyAppWorker } from "./build-app";
 import { getUserRuleByPassword } from "./check-password";
 import { DeviceController } from "./device-controller";
 import { StateController } from "./state.controller";
@@ -55,7 +55,6 @@ export const initIPCServer = (mainWindow: BrowserWindow) => {
     IPC_SERVER_SIDE_EVENTS.select_divices_directories,
     async function (event) {
       const newPaths = await deviceController.appendDevicesDialog(mainWindow);
-
       event.sender.send(IPC_CLIENT_SIDE_EVENTS.new_devices, newPaths);
       event.sender.send(
         IPC_CLIENT_SIDE_EVENTS.all_devices,
@@ -70,12 +69,8 @@ export const initIPCServer = (mainWindow: BrowserWindow) => {
 
   ipcMain.on(
     IPC_SERVER_SIDE_EVENTS.write_app_to_flash,
-    async function (event, device: Device) {
-      await copyWindowsPackageToPath(device.path);
-      event.sender.send(
-        IPC_CLIENT_SIDE_EVENTS.write_app_to_flash_finish,
-        device
-      );
+    function (event, device: Device) {
+      getCopyAppWorker(event, device.path);
     }
   );
 };

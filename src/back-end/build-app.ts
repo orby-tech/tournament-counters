@@ -9,18 +9,17 @@ import { execSync } from "child_process";
 import fs from "fs";
 import fsExtra from "fs-extra";
 import { IpcMainEvent } from "electron";
-import { IPC_CLIENT_SIDE_EVENTS } from "../common/constants/ipc-events";
 
 import { Worker } from "worker_threads";
-import { ERROR_WHEN_APP_BUILDING } from "../common/constants/threads-events";
-
-export const buildAppIPC = async (event: IpcMainEvent) => {
-  await buildApp();
-  event.sender.send(IPC_CLIENT_SIDE_EVENTS.build_app_finish);
-};
+import {
+  ERROR_WHEN_APP_BUILDING,
+  ERROR_WHEN_APP_COPING,
+} from "../common/constants/threads-events";
 
 export const getBuildAppWorker = async (event: IpcMainEvent) => {
-  const worker = new Worker(__filename, {});
+  const worker = new Worker(__filename, {
+    workerData: { workerType: "buildApp" },
+  });
 
   worker.on("message", (e) => {
     event.sender.send(e);
@@ -35,39 +34,61 @@ export const getBuildAppWorker = async (event: IpcMainEvent) => {
   });
 };
 
-export const buildApp = async () => {
-  deleteBuildDir();
-  await cloneApp();
-  installNpm();
-  buildWindowsPackage();
-  return true;
+export const getCopyAppWorker = async (event: IpcMainEvent, path: string) => {
+  const worker = new Worker(__filename, {
+    workerData: { workerType: "copyApp", path: path },
+  });
+
+  worker.on("message", (e) => {
+    event.sender.send(e);
+  });
+  worker.on("error", (e) => {
+    event.sender.send(ERROR_WHEN_APP_COPING, e);
+  });
+  worker.on("exit", (code) => {
+    if (code !== 0) {
+      event.sender.send(ERROR_WHEN_APP_COPING, code);
+    }
+  });
 };
 
-export const deleteBuildDir = () => {
-  try {
-    fs.rmdirSync(BUILD_DIRECTORY, { recursive: true });
-  } catch (e) {}
-};
+export class AppBuilder {
+  buildApp = async () => {
+    this.deleteBuildDir();
+    await this.cloneApp();
+    this.installNpm();
+    this.buildWindowsPackage();
+    return true;
+  };
 
-export const cloneApp = async () => {
-  await simpleGit().clone(REPOSITORY_URL, BUILD_DIRECTORY);
-};
+  deleteBuildDir = () => {
+    try {
+      fs.rmdirSync(BUILD_DIRECTORY, { recursive: true });
+    } catch (e) {}
+  };
 
-export const installNpm = () => {
-  execSync(`cd ${BUILD_DIRECTORY} && npm i `);
-};
+  cloneApp = async () => {
+    await simpleGit().clone(REPOSITORY_URL, BUILD_DIRECTORY);
+  };
 
-export const buildWindowsPackage = () => {
-  execSync(`cd ${BUILD_DIRECTORY} && npm run make `);
-};
+  installNpm = () => {
+    execSync(`cd ${BUILD_DIRECTORY} && npm i `);
+  };
 
-export const copyWindowsPackageToPath = async (targetPath: string) => {
-  fsExtra.copySync(
-    `${BUILD_DIRECTORY}/out/${APP_NAME}-win32-x64/`,
-    `${targetPath}/${DIRECTORY_NAME_ON_FLASH}`
-  );
-  fsExtra.copySync(
-    `${BUILD_DIRECTORY}/start-app.bat`,
-    `${targetPath}/start-app.bat`
-  );
-};
+  buildWindowsPackage = () => {
+    execSync(`cd ${BUILD_DIRECTORY} && npm run make `);
+  };
+}
+
+export class CopyAppBuilder {
+  copyWindowsPackageToPath = (targetPath: string) => {
+    fsExtra.copySync(
+      `${BUILD_DIRECTORY}/out/${APP_NAME}-win32-x64/`,
+      `${targetPath}/${DIRECTORY_NAME_ON_FLASH}`
+    );
+    fsExtra.copySync(
+      `${BUILD_DIRECTORY}/start-app.bat`,
+      `${targetPath}/start-app.bat`
+    );
+  };
+}

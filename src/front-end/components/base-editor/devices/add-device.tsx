@@ -13,10 +13,11 @@ function AddDevicesPure() {
   const { t } = useTranslation();
 
   const dirClick = (e: any) => {
-    ipcRenderer.sendSync(IPC_SERVER_SIDE_EVENTS.select_divices_directories);
+    ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.select_divices_directories);
   };
 
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.new_devices, (e, paths: string[]) => {
+    console.log(20);
     paths.map((path) => toast(path));
   });
 

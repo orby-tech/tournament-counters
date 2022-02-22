@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { BuildAppEventsType } from "../../../common/constants/threads-events";
+import {
+  BuildAppEventsType,
+  CopyAppEventsType,
+} from "../../../common/constants/threads-events";
 import { Device } from "../../../common/models/device";
 
 export type DevicesType = {
   devices: Device[];
   loaded: boolean;
   buildState: BuildAppEventsType;
+  copyState: CopyAppEventsType;
 };
 
 export const devicesSlice = createSlice({
@@ -14,6 +18,7 @@ export const devicesSlice = createSlice({
     devices: [] as Device[],
     loaded: false,
     buildState: "endBuild" as BuildAppEventsType,
+    copyState: "endCoping" as CopyAppEventsType,
   },
   reducers: {
     setDevices: (state: DevicesType, action: any) => {
@@ -21,11 +26,14 @@ export const devicesSlice = createSlice({
       state.loaded = true;
     },
     setBuildState: (state: DevicesType, action: any) => {
-      console.log(24);
       state.buildState = action.payload.payload;
+    },
+    setCopyState: (state: DevicesType, action: any) => {
+      console.log(24);
+      state.copyState = action.payload.payload;
     },
   },
 });
 
-export const { setDevices, setBuildState } = devicesSlice.actions;
+export const { setDevices, setBuildState, setCopyState } = devicesSlice.actions;
 export const devicesSliceReducer = devicesSlice.reducer;
