@@ -13,6 +13,9 @@ function InitIPCControllerPure() {
   const baseEditorManualUpdated = useAppSelector(
     (state) => state.baseEditor.manualUpdated
   );
+  const tournamentStructureLoaded = useAppSelector(
+    (state) => state.tournamentStructure.loaded
+  );
   const mustLoad = useAppSelector((state) => state.stateController.mustLoad);
 
   if (mustLoad) {
@@ -21,6 +24,8 @@ function InitIPCControllerPure() {
     ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.set_state, state);
   } else if (baseEditorManualUpdated) {
     ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.set_base_state, state.baseEditor);
+  } else if (!tournamentStructureLoaded) {
+    ipcRenderer.send(IPC_SERVER_SIDE_EVENTS.get_tournament_state);
   }
 
   return (

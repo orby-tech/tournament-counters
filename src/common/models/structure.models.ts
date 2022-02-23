@@ -23,6 +23,13 @@ export type StructureState = {
   manualUpdated: boolean;
 };
 
+export type TournamentState = {
+  sections: {
+    sectionNumber: number;
+    states: StructureState[];
+  }[];
+};
+
 export type AvailableTours = 1 | 2 | 3 | 4 | 5;
 
 export type AvailableEvaluations =

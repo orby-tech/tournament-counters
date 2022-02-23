@@ -57,7 +57,7 @@ export class DeviceController {
     try {
       return (
         fs.readdirSync(
-          `${device.path}/counter-app/database/${"base-info.json"}`
+          `${device.path}/counter-app/database/`
         ).length > 2
       );
     } catch (e) {

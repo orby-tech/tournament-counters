@@ -20,7 +20,6 @@ function DevicesPure() {
   const dispatch = useAppDispatch();
 
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.all_devices, (e, e1: Device[]) => {
-    console.log(e1);
     dispatch(setDevices({ type: "", payload: e1 }));
   });
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.build_app_finish, (e) => {

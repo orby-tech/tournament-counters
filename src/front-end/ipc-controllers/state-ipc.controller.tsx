@@ -7,6 +7,7 @@ import { StructureState } from "../../common/models/structure.models";
 import { setBaseState } from "../store/slices/base-editor.slice";
 import { BaseEditorStructure } from "../../common/models/base-editor.models";
 import { IPC_CLIENT_SIDE_EVENTS } from "../../common/constants/ipc-events";
+import { setTournamentState } from "../store/slices/tournament-structure.slice";
 
 function InitStateIPCControllerPure() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,10 @@ function InitStateIPCControllerPure() {
       dispatch(loaded({ type: "", payload: "" }));
     }
   );
+
+  ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.tournament_state, (e, e1) => {
+    dispatch(setTournamentState({ type: "", payload: e1 }));
+  });
   return <></>;
 }
 

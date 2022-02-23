@@ -17,7 +17,6 @@ function AddDevicesPure() {
   };
 
   ipcRenderer.on(IPC_CLIENT_SIDE_EVENTS.new_devices, (e, paths: string[]) => {
-    console.log(20);
     paths.map((path) => toast(path));
   });
 

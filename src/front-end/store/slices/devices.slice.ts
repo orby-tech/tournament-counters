@@ -29,7 +29,6 @@ export const devicesSlice = createSlice({
       state.buildState = action.payload.payload;
     },
     setCopyState: (state: DevicesType, action: any) => {
-      console.log(24);
       state.copyState = action.payload.payload;
     },
   },

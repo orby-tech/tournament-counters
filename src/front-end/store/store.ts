@@ -4,6 +4,7 @@ import stateControllerReducer from "./slices/state-controller.slice";
 import baseEditorReducer from "./slices/base-editor.slice";
 import tabsReducer from "./slices/tabs.slice";
 import { devicesSliceReducer } from "./slices/devices.slice";
+import { tournamentStructureReducer } from "./slices/tournament-structure.slice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     baseEditor: baseEditorReducer,
     tabs: tabsReducer,
     devicesSlice: devicesSliceReducer,
+    tournamentStructure: tournamentStructureReducer,
   },
 });
 

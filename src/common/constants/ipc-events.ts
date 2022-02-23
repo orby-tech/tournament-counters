@@ -7,6 +7,8 @@ export const IPC_SERVER_SIDE_EVENTS = {
   select_divices_directories: "select-divices-directories",
   build_app: "build-app",
   write_app_to_flash: "write-app-to-flash",
+  import_data_from_flash: "import-data-from-flash",
+  get_tournament_state: "get_tournament_state",
 } as const;
 
 export const IPC_CLIENT_SIDE_EVENTS = {
@@ -18,4 +20,5 @@ export const IPC_CLIENT_SIDE_EVENTS = {
   new_devices: "new-devices",
   build_app_finish: "build-app-finish",
   write_app_to_flash_finish: "write-app-to-flash-finish",
+  tournament_state: "tournament-state",
 } as const;

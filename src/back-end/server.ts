@@ -8,9 +8,11 @@ import { getBuildAppWorker, getCopyAppWorker } from "./build-app";
 import { getUserRuleByPassword } from "./check-password";
 import { DeviceController } from "./device-controller";
 import { StateController } from "./state.controller";
+import { TournamentStateController } from "./tournament-state.controller";
 
 const stateController = new StateController();
 const deviceController = new DeviceController();
+const tournamentStateController = new TournamentStateController();
 
 export const initIPCServer = (mainWindow: BrowserWindow) => {
   ipcMain.on(IPC_SERVER_SIDE_EVENTS.hello, (event) => {
@@ -71,6 +73,29 @@ export const initIPCServer = (mainWindow: BrowserWindow) => {
     IPC_SERVER_SIDE_EVENTS.write_app_to_flash,
     function (event, device: Device) {
       getCopyAppWorker(event, device.path);
+    }
+  );
+
+  ipcMain.on(
+    IPC_SERVER_SIDE_EVENTS.import_data_from_flash,
+    function (event, device: Device) {
+      try {
+        tournamentStateController.importData(device);
+        event.sender.send(
+          IPC_CLIENT_SIDE_EVENTS.tournament_state,
+          tournamentStateController.readState()
+        );
+      } catch (e) {}
+    }
+  );
+
+  ipcMain.on(
+    IPC_SERVER_SIDE_EVENTS.get_tournament_state,
+    async function (event) {
+      event.sender.send(
+        IPC_CLIENT_SIDE_EVENTS.tournament_state,
+        tournamentStateController.readState()
+      );
     }
   );
 };

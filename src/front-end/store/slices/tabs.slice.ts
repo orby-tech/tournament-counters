@@ -6,6 +6,7 @@ export type TabSliceType = {
   userRule: UserRule;
   selectedTab: AvailableTabs;
   editorSelectedTab: 1 | 2;
+  tournamentEditorSelectedTab: 2 | 3;
 };
 
 export const tabsSlice = createSlice({
@@ -13,7 +14,8 @@ export const tabsSlice = createSlice({
   initialState: {
     userRule: "root" as UserRule,
     selectedTab: 4 as AvailableTabs,
-    editorSelectedTab: 2 as 1 | 2,
+    editorSelectedTab: 3 as 1 | 2 | 3,
+    tournamentEditorSelectedTab: 3 as 2 | 3,
   },
   reducers: {
     setUserStatus: (state: TabSliceType, action: any) => {
@@ -25,9 +27,16 @@ export const tabsSlice = createSlice({
     setEditorSelectedTab: (state: TabSliceType, action: any) => {
       state.editorSelectedTab = action.payload.payload;
     },
+    setTournamentEditorSelectedTab: (state: TabSliceType, action: any) => {
+      state.tournamentEditorSelectedTab = action.payload.payload;
+    },
   },
 });
 
-export const { setUserStatus, setSelectedTab, setEditorSelectedTab } =
-  tabsSlice.actions;
+export const {
+  setUserStatus,
+  setSelectedTab,
+  setEditorSelectedTab,
+  setTournamentEditorSelectedTab,
+} = tabsSlice.actions;
 export default tabsSlice.reducer;
